@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taquifomeburguers | Cardápio Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIÁVEIS DE COR --- */
+        :root {
+            --cor-fundo: #121212;
+            --cor-texto: #FFFFFF;
+            --cor-destaque: #FFD700;
+            --cor-card: #1E1E1E;
+        }
+
+        /* --- RESET E ESTILOS GERAIS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            padding-bottom: 80px;
+        }
+
+        /* --- CABEÇALHO --- */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #000;
+            border-bottom: 3px solid var(--cor-destaque);
+        }
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto 10px auto;
+            display: block;
+        }
+        header p {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        /* --- NAVEGAÇÃO DE CATEGORIAS --- */
+        .categorias {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Permite que os botões quebrem linha se a tela for pequena */
+            gap: 10px;
+            padding: 20px;
+        }
+        .btn-categoria {
+            background-color: transparent;
+            color: var(--cor-texto);
+            border: 2px solid var(--cor-destaque);
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-categoria.ativo, .btn-categoria:hover {
+            background-color: var(--cor-destaque);
+            color: #000;
+        }
+
+        /* --- LISTA DE PRODUTOS --- */
+        .menu-container {
+            padding: 0 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .item-card {
+            background-color: var(--cor-card);
+            border-radius: 12px;
+            display: flex;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: transform 0.2s;
+        }
+        .item-card:active {
+            transform: scale(0.98);
+        }
+        .item-img {
+            width: 120px;
+            height: auto;
+            min-height: 120px;
+            object-fit: cover;
+            background-color: #333; 
+        }
+        .item-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .item-titulo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--cor-destaque);
+        }
+        .item-desc {
+            font-size: 0.8rem;
+            color: #ccc;
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        .item-preco {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #fff;
+            align-self: flex-end;
+            margin-top: 10px;
+        }
+
+        /* --- BOTÃO FLUTUANTE WHATSAPP --- */
+        .btn-whatsapp {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="img/logo.jpg" alt="Taquifomeburguers Logo" class="logo">
+    </header>
+
+    <nav class="categorias">
+        <button class="btn-categoria ativo" onclick="filtrar(event, 'todos')">Todos</button>
+        <button class="btn-categoria" onclick="filtrar(event, 'burger')">Burgers</button>
+        <button class="btn-categoria" onclick="filtrar(event, 'combo')">Combos</button>
+        <button class="btn-categoria" onclick="filtrar(event, 'acompanhamento')">Porções</button>
+        <button class="btn-categoria" onclick="filtrar(event, 'bebida')">Bebidas</button>
+    </nav>
+
+    <main class="menu-container">
+        
+        <!-- ================= HAMBURGUERS ================= -->
+        <div class="item-card burger">
+            <img src="img/lanche1.jpeg" alt="Taqui Classic" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">1- "TAQUI CLASSIC"</h3>
+                <p class="item-desc">Pão brioche, maionese defumada, blend de carne, queijo, alface e tomate.</p>
+                <span class="item-preco">R$ 18,00</span>
+            </div>
+        </div>
+
+        <div class="item-card burger">
+            <img src="img/lanche2.jpeg" alt="Taqui Cheddar" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">2- "TAQUI CHEDDAR"</h3>
+                <p class="item-desc">Pão brioche, carne grelhada, queijo cheddar, cheddar.</p>
+                <span class="item-preco">R$ 19,00</span>
+            </div>
+        </div>
+
+        <div class="item-card burger">
+            <img src="img/lanche3.jpeg" alt="Taqui BBQ Bacon" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">3- "TAQUI BBQ BACON"</h3>
+                <p class="item-desc">Pão brioche, carne grelhada, queijo cheddar, molho barbecue, bacon.</p>
+                <span class="item-preco">R$ 21,00</span>
+            </div>
+        </div>
+
+        <div class="item-card burger">
+            <img src="img/lanche4.jpeg" alt="Taqui Egg" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">4- "TAQUI EGG"</h3>
+                <p class="item-desc">Pão brioche, carne grelhada, queijo, alface, tomate, dois ovos grelhados.</p>
+                <span class="item-preco">R$ 25,00</span>
+            </div>
+        </div>
+
+        <div class="item-card burger">
+            <img src="img/lanche5.jpeg" alt="Taqui Double Cheese" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">5- "TAQUI DOUBLE CHEESE"</h3>
+                <p class="item-desc">Pão brioche, dois hambúrgueres, queijo cheddar, cebola caramelizada, alface, tomate.</p>
+                <span class="item-preco">R$ 30,00</span>
+            </div>
+        </div>
+
+        <div class="item-card burger">
+            <img src="img/lanche6.jpeg" alt="Taqui Double BBQ Bacon" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">6- "TAQUI DOUBLE BBQ BACON"</h3>
+                <p class="item-desc">Pão brioche, maionese defumada, dois blend de carnes, duplo queijo, barbecue, bacon.</p>
+                <span class="item-preco">R$ 33,00</span>
+            </div>
+        </div>
+
+        <div class="item-card burger">
+            <img src="img/lanche7.jpeg" alt="Double Onion Caramel" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">7- "DOUBLE ONION CARAMEL"</h3>
+                <p class="item-desc">Pão brioche, maionese defumada, dois blend de carne, duplo queijo, bacon, cebola caramelizada, molho especial.</p>
+                <span class="item-preco">R$ 35,00</span>
+            </div>
+        </div>
+
+        <div class="item-card burger">
+            <img src="img/lanche8.jpeg" alt="Taqui Chiken" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">8- "TAQUI CHIKEN"</h3>
+                <p class="item-desc">Pão brioche, maionese defumada, peito de frango empanado crocante, alface e tomate.</p>
+                <span class="item-preco">R$ 19,00</span>
+            </div>
+        </div>
+
+        <div class="item-card burger">
+            <img src="img/lanche9.jpeg" alt="Taqui Bola" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">9- "TAQUI BOLA"</h3>
+                <p class="item-desc">Pão bola francês, maionese defumada, blend de carne, calabresa, queijo, alface e tomate.</p>
+                <span class="item-preco" style="color: var(--cor-destaque);">Em breve</span>
+            </div>
+        </div>
+
+        <!-- ================= COMBOS ================= -->
+        <div class="item-card combo">
+            <img src="img/combo1.jpg" alt="Combo TaquixClassic" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">1-Combo "TaquixClassic"</h3>
+                <p class="item-desc">Pão brioche, carne grelhada, queijo, alface, tomate, molho especial (acompanha porção de batata 120g).</p>
+                <span class="item-preco">R$ 26,00</span>
+            </div>
+        </div>
+
+        <div class="item-card combo">
+            <img src="img/combo2.jpg" alt="Combo TaquixCheddar" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">2-Combo "TaquixCheddar"</h3>
+                <p class="item-desc">Pão brioche, maionese temperada, carne grelhada, queijo cheddar (acompanha porção de batata 120g).</p>
+                <span class="item-preco">R$ 28,00</span>
+            </div>
+        </div>
+
+        <div class="item-card combo">
+            <img src="img/combo3.jpg" alt="Combo TaquixDuplo Cheddar Bacon" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">3-Combo "TaquixDuplo cheddar bacon"</h3>
+                <p class="item-desc">Pão brioche, maionese temperada, carne grelhada, duplo queijo cheddar, cheddar, bacon (acompanha porção de batata com cheddar e bacon 260g).</p>
+                <span class="item-preco">R$ 42,00</span>
+            </div>
+        </div>
+
+        <!-- ================= ACOMPANHAMENTOS ================= -->
+        <div class="item-card acompanhamento">
+            <img src="img/batata-p.jpg" alt="Batata P" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">Batata P</h3>
+                <p class="item-desc">Porção de batata frita pequena.</p>
+                <span class="item-preco">R$ 7,00</span>
+            </div>
+        </div>
+
+        <div class="item-card acompanhamento">
+            <img src="img/batata-m.jpg" alt="Batata M" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">Batata M</h3>
+                <p class="item-desc">Porção de batata frita média.</p>
+                <span class="item-preco">R$ 9,00</span>
+            </div>
+        </div>
+
+        <div class="item-card acompanhamento">
+            <img src="img/batata-g.jpg" alt="Batata G" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">Batata G</h3>
+                <p class="item-desc">Porção de batata frita grande.</p>
+                <span class="item-preco">R$ 14,00</span>
+            </div>
+        </div>
+
+        <div class="item-card acompanhamento">
+            <img src="img/batata-cheddar.jpg" alt="Batata com cheddar e bacon" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">Batata com cheddar e bacon</h3>
+                <p class="item-desc">Deliciosa porção de batata com cheddar derretido e bacon crocante.</p>
+                <span class="item-preco">R$ 19,00</span>
+            </div>
+        </div>
+
+        <div class="item-card acompanhamento">
+            <img src="img/mini-chicken.jpg" alt="Mini chikens empanado" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">Mini chikens empanado</h3>
+                <p class="item-desc">Porção com 6 unidades.</p>
+                <span class="item-preco">R$ 8,00</span>
+            </div>
+        </div>
+
+        <!-- ================= BEBIDAS ================= -->
+        <div class="item-card bebida">
+            <img src="img/refri200.jpg" alt="Refrigerante 200ml" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">Refrigerante 200ml</h3>
+                <span class="item-preco">R$ 4,00</span>
+            </div>
+        </div>
+
+        <div class="item-card bebida">
+            <img src="img/refrilata.jpg" alt="Refrigerante (lata) 350ml" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">Refrigerante (lata) 350ml</h3>
+                <span class="item-preco">R$ 6,50</span>
+            </div>
+        </div>
+
+        <div class="item-card bebida">
+            <img src="img/suco.jpg" alt="Suco del valle" class="item-img">
+            <div class="item-info">
+                <h3 class="item-titulo">Suco del Valle (lata)</h3>
+                <p class="item-desc">290ml</p>
+                <span class="item-preco">R$ 9,00</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Link do WhatsApp configurado com o número do restaurante -->
+    <a href="https://wa.me/5511925308460?text=Olá!%20Estou%20vendo%20o%20cardápio%20digital%20e%20gostaria%20de%20fazer%20um%20pedido." class="btn-whatsapp" target="_blank">
+        Pedir pelo WhatsApp
+    </a>
+
+    <script>
+        function filtrar(evento, categoria) {
+            const botoes = document.querySelectorAll('.btn-categoria');
+            botoes.forEach(btn => btn.classList.remove('ativo'));
+            evento.currentTarget.classList.add('ativo');
+
+            const cards = document.querySelectorAll('.item-card');
+            cards.forEach(card => {
+                if (categoria === 'todos') {
+                    card.style.display = 'flex';
+                } else {
+                    if (card.classList.contains(categoria)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
