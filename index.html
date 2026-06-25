@@ -12,131 +12,52 @@
             --cor-texto: #FFFFFF;
             --cor-destaque: #FFD700;
             --cor-card: #1E1E1E;
+            --cor-sucesso: #25D366;
         }
 
-        /* --- RESET E ESTILOS GERAIS --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-        body {
-            background-color: var(--cor-fundo);
-            color: var(--cor-texto);
-            padding-bottom: 80px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--cor-fundo); color: var(--cor-texto); padding-bottom: 100px; }
 
         /* --- CABEÇALHO --- */
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: #000;
-            border-bottom: 3px solid var(--cor-destaque);
-        }
-        .logo {
-            max-width: 200px;
-            height: auto;
-            margin: 0 auto 10px auto;
-            display: block;
-        }
-        header p {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-top: 5px;
-        }
+        header { text-align: center; padding: 30px 20px; background-color: #000; border-bottom: 3px solid var(--cor-destaque); }
+        .logo { max-width: 180px; height: auto; margin: 0 auto 10px auto; display: block; }
+        header p { font-size: 0.9rem; color: #aaa; }
 
-        /* --- NAVEGAÇÃO DE CATEGORIAS --- */
-        .categorias {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap; /* Permite que os botões quebrem linha se a tela for pequena */
-            gap: 10px;
-            padding: 20px;
-        }
-        .btn-categoria {
-            background-color: transparent;
-            color: var(--cor-texto);
-            border: 2px solid var(--cor-destaque);
-            padding: 8px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        .btn-categoria.ativo, .btn-categoria:hover {
-            background-color: var(--cor-destaque);
-            color: #000;
-        }
+        /* --- NAVEGAÇÃO --- */
+        .categorias { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 20px; }
+        .btn-categoria { background-color: transparent; color: var(--cor-texto); border: 2px solid var(--cor-destaque); padding: 8px 15px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-categoria.ativo, .btn-categoria:hover { background-color: var(--cor-destaque); color: #000; }
 
         /* --- LISTA DE PRODUTOS --- */
-        .menu-container {
-            padding: 0 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .item-card {
-            background-color: var(--cor-card);
-            border-radius: 12px;
-            display: flex;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border: 1px solid #333;
-            transition: transform 0.2s;
-        }
-        .item-card:active {
-            transform: scale(0.98);
-        }
-        .item-img {
-            width: 120px;
-            height: auto;
-            min-height: 120px;
-            object-fit: cover;
-            background-color: #333; 
-        }
-        .item-info {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .item-titulo {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--cor-destaque);
-        }
-        .item-desc {
-            font-size: 0.8rem;
-            color: #ccc;
-            margin: 5px 0;
-            line-height: 1.4;
-        }
-        .item-preco {
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: #fff;
-            align-self: flex-end;
-            margin-top: 10px;
-        }
+        .menu-container { padding: 0 20px; max-width: 600px; margin: 0 auto; }
+        .item-card { background-color: var(--cor-card); border-radius: 12px; display: flex; margin-bottom: 15px; overflow: hidden; border: 1px solid #333; }
+        .item-img { width: 110px; height: auto; min-height: 120px; object-fit: cover; background-color: #333; }
+        .item-info { padding: 15px; display: flex; flex-direction: column; justify-content: space-between; width: 100%; }
+        .item-titulo { font-size: 1.1rem; font-weight: 700; color: var(--cor-destaque); }
+        .item-desc { font-size: 0.8rem; color: #ccc; margin: 5px 0; line-height: 1.4; }
+        .preco-add { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .item-preco { font-size: 1.1rem; font-weight: 900; color: #fff; }
+        .btn-add { background-color: var(--cor-destaque); color: #000; border: none; padding: 5px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .btn-add:active { transform: scale(0.95); }
 
-        /* --- BOTÃO FLUTUANTE WHATSAPP --- */
-        .btn-whatsapp {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25D366;
-            color: #fff;
-            padding: 15px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 100;
-        }
+        /* --- BOTÃO VER CARRINHO --- */
+        .btn-ver-carrinho { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--cor-destaque); color: #000; padding: 15px 30px; border-radius: 50px; border: none; font-weight: 900; font-size: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer; display: flex; align-items: center; gap: 10px; z-index: 99; width: 90%; max-width: 400px; justify-content: center; }
+        .badge { background-color: red; color: white; border-radius: 50%; padding: 2px 8px; font-size: 0.8rem; }
+
+        /* --- MODAL DO CARRINHO --- */
+        .modal-carrinho { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; justify-content: center; align-items: center; }
+        .modal-conteudo { background-color: var(--cor-card); width: 90%; max-width: 500px; max-height: 90vh; border-radius: 12px; padding: 20px; overflow-y: auto; position: relative; }
+        .fechar-modal { position: absolute; top: 15px; right: 15px; background: transparent; color: #fff; border: none; font-size: 1.5rem; cursor: pointer; }
+        .modal-conteudo h2 { color: var(--cor-destaque); margin-bottom: 15px; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        
+        .carrinho-itens { margin-bottom: 20px; }
+        .item-carrinho { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; border-bottom: 1px dashed #444; padding-bottom: 5px;}
+        .remover-item { color: red; cursor: pointer; font-weight: bold; margin-left: 10px; }
+        
+        .total-carrinho { font-size: 1.2rem; font-weight: bold; text-align: right; margin-bottom: 20px; color: var(--cor-destaque); }
+
+        .form-pedido input, .form-pedido select { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; }
+        .btn-finalizar { width: 100%; background-color: var(--cor-sucesso); color: #fff; padding: 15px; border: none; border-radius: 5px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -161,7 +82,10 @@
             <div class="item-info">
                 <h3 class="item-titulo">1- "TAQUI CLASSIC"</h3>
                 <p class="item-desc">Pão brioche, maionese defumada, blend de carne, queijo, alface e tomate.</p>
-                <span class="item-preco">R$ 18,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 18,00</span>
+                    <button class="btn-add" onclick="adicionarItem('1- Taqui Classic', 18.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -170,7 +94,10 @@
             <div class="item-info">
                 <h3 class="item-titulo">2- "TAQUI CHEDDAR"</h3>
                 <p class="item-desc">Pão brioche, carne grelhada, queijo cheddar, cheddar.</p>
-                <span class="item-preco">R$ 19,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 19,00</span>
+                    <button class="btn-add" onclick="adicionarItem('2- Taqui Cheddar', 19.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -179,7 +106,10 @@
             <div class="item-info">
                 <h3 class="item-titulo">3- "TAQUI BBQ BACON"</h3>
                 <p class="item-desc">Pão brioche, carne grelhada, queijo cheddar, molho barbecue, bacon.</p>
-                <span class="item-preco">R$ 21,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 21,00</span>
+                    <button class="btn-add" onclick="adicionarItem('3- Taqui BBQ Bacon', 21.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -188,7 +118,10 @@
             <div class="item-info">
                 <h3 class="item-titulo">4- "TAQUI EGG"</h3>
                 <p class="item-desc">Pão brioche, carne grelhada, queijo, alface, tomate, dois ovos grelhados.</p>
-                <span class="item-preco">R$ 25,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 25,00</span>
+                    <button class="btn-add" onclick="adicionarItem('4- Taqui Egg', 25.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -197,7 +130,10 @@
             <div class="item-info">
                 <h3 class="item-titulo">5- "TAQUI DOUBLE CHEESE"</h3>
                 <p class="item-desc">Pão brioche, dois hambúrgueres, queijo cheddar, cebola caramelizada, alface, tomate.</p>
-                <span class="item-preco">R$ 30,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 30,00</span>
+                    <button class="btn-add" onclick="adicionarItem('5- Taqui Double Cheese', 30.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -206,7 +142,10 @@
             <div class="item-info">
                 <h3 class="item-titulo">6- "TAQUI DOUBLE BBQ BACON"</h3>
                 <p class="item-desc">Pão brioche, maionese defumada, dois blend de carnes, duplo queijo, barbecue, bacon.</p>
-                <span class="item-preco">R$ 33,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 33,00</span>
+                    <button class="btn-add" onclick="adicionarItem('6- Taqui Double BBQ Bacon', 33.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -215,7 +154,10 @@
             <div class="item-info">
                 <h3 class="item-titulo">7- "DOUBLE ONION CARAMEL"</h3>
                 <p class="item-desc">Pão brioche, maionese defumada, dois blend de carne, duplo queijo, bacon, cebola caramelizada, molho especial.</p>
-                <span class="item-preco">R$ 35,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 35,00</span>
+                    <button class="btn-add" onclick="adicionarItem('7- Double Onion Caramel', 35.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -224,44 +166,47 @@
             <div class="item-info">
                 <h3 class="item-titulo">8- "TAQUI CHIKEN"</h3>
                 <p class="item-desc">Pão brioche, maionese defumada, peito de frango empanado crocante, alface e tomate.</p>
-                <span class="item-preco">R$ 19,00</span>
-            </div>
-        </div>
-
-        <div class="item-card burger">
-            <img src="img/lanche9.jpeg" alt="Taqui Bola" class="item-img">
-            <div class="item-info">
-                <h3 class="item-titulo">9- "TAQUI BOLA"</h3>
-                <p class="item-desc">Pão bola francês, maionese defumada, blend de carne, calabresa, queijo, alface e tomate.</p>
-                <span class="item-preco" style="color: var(--cor-destaque);">Em breve</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 19,00</span>
+                    <button class="btn-add" onclick="adicionarItem('8- Taqui Chiken', 19.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
         <!-- ================= COMBOS ================= -->
         <div class="item-card combo">
-            <img src="img/combo1.jpg" alt="Combo TaquixClassic" class="item-img">
+            <img src="img/combo1.jpeg" alt="Combo TaquixClassic" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">1-Combo "TaquixClassic"</h3>
-                <p class="item-desc">Pão brioche, carne grelhada, queijo, alface, tomate, molho especial (acompanha porção de batata 120g).</p>
-                <span class="item-preco">R$ 26,00</span>
+                <p class="item-desc">Pão brioche, carne grelhada, queijo, alface, tomate, molho especial + batata 120g.</p>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 26,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Combo 1 - TaquixClassic', 26.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
         <div class="item-card combo">
-            <img src="img/combo2.jpg" alt="Combo TaquixCheddar" class="item-img">
+            <img src="img/combo2.jpeg" alt="Combo TaquixCheddar" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">2-Combo "TaquixCheddar"</h3>
-                <p class="item-desc">Pão brioche, maionese temperada, carne grelhada, queijo cheddar (acompanha porção de batata 120g).</p>
-                <span class="item-preco">R$ 28,00</span>
+                <p class="item-desc">Pão brioche, maionese temperada, carne grelhada, queijo cheddar + batata 120g.</p>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 28,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Combo 2 - TaquixCheddar', 28.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
         <div class="item-card combo">
-            <img src="img/combo3.jpg" alt="Combo TaquixDuplo Cheddar Bacon" class="item-img">
+            <img src="img/combo3.jpeg" alt="Combo TaquixDuplo Cheddar Bacon" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">3-Combo "TaquixDuplo cheddar bacon"</h3>
-                <p class="item-desc">Pão brioche, maionese temperada, carne grelhada, duplo queijo cheddar, cheddar, bacon (acompanha porção de batata com cheddar e bacon 260g).</p>
-                <span class="item-preco">R$ 42,00</span>
+                <p class="item-desc">Duplo queijo cheddar, bacon + batata com cheddar e bacon 260g.</p>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 42,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Combo 3 - TaquixDuplo Cheddar Bacon', 42.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -270,8 +215,10 @@
             <img src="img/batata-p.jpg" alt="Batata P" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Batata P</h3>
-                <p class="item-desc">Porção de batata frita pequena.</p>
-                <span class="item-preco">R$ 7,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 7,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Batata P', 7.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -279,8 +226,10 @@
             <img src="img/batata-m.jpg" alt="Batata M" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Batata M</h3>
-                <p class="item-desc">Porção de batata frita média.</p>
-                <span class="item-preco">R$ 9,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 9,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Batata M', 9.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -288,8 +237,10 @@
             <img src="img/batata-g.jpg" alt="Batata G" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Batata G</h3>
-                <p class="item-desc">Porção de batata frita grande.</p>
-                <span class="item-preco">R$ 14,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 14,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Batata G', 14.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
@@ -297,53 +248,98 @@
             <img src="img/batata-cheddar.jpg" alt="Batata com cheddar e bacon" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Batata com cheddar e bacon</h3>
-                <p class="item-desc">Deliciosa porção de batata com cheddar derretido e bacon crocante.</p>
-                <span class="item-preco">R$ 19,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 19,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Batata Cheddar e Bacon', 19.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
         <div class="item-card acompanhamento">
             <img src="img/mini-chicken.jpg" alt="Mini chikens empanado" class="item-img">
             <div class="item-info">
-                <h3 class="item-titulo">Mini chikens empanado</h3>
-                <p class="item-desc">Porção com 6 unidades.</p>
-                <span class="item-preco">R$ 8,00</span>
+                <h3 class="item-titulo">Mini chikens (6 un)</h3>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 8,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Mini Chickens (6 un)', 8.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
         <!-- ================= BEBIDAS ================= -->
         <div class="item-card bebida">
-            <img src="img/refri200.jpg" alt="Refrigerante 200ml" class="item-img">
+            <img src="img/refri200ml.png" alt="Refrigerante 200ml" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Refrigerante 200ml</h3>
-                <span class="item-preco">R$ 4,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 4,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Refri 200ml', 4.00)">Adicionar</button>
+                </div>
             </div>
         </div>
 
         <div class="item-card bebida">
-            <img src="img/refrilata.jpg" alt="Refrigerante (lata) 350ml" class="item-img">
+            <img src="img/refri350ml.png" alt="Refrigerante (lata) 350ml" class="item-img">
             <div class="item-info">
-                <h3 class="item-titulo">Refrigerante (lata) 350ml</h3>
-                <span class="item-preco">R$ 6,50</span>
+                <h3 class="item-titulo">Refrigerante Lata 350ml</h3>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 6,50</span>
+                    <button class="btn-add" onclick="adicionarItem('Refri Lata 350ml', 6.50)">Adicionar</button>
+                </div>
             </div>
         </div>
 
         <div class="item-card bebida">
-            <img src="img/suco.jpg" alt="Suco del valle" class="item-img">
+            <img src="img/dellvale.png" alt="Suco del valle" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Suco del Valle (lata)</h3>
-                <p class="item-desc">290ml</p>
-                <span class="item-preco">R$ 9,00</span>
+                <div class="preco-add">
+                    <span class="item-preco">R$ 9,00</span>
+                    <button class="btn-add" onclick="adicionarItem('Suco Del Valle Lata', 9.00)">Adicionar</button>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- Link do WhatsApp configurado com o número do restaurante -->
-    <a href="https://wa.me/5511925308460?text=Olá!%20Estou%20vendo%20o%20cardápio%20digital%20e%20gostaria%20de%20fazer%20um%20pedido." class="btn-whatsapp" target="_blank">
-        Pedir pelo WhatsApp
-    </a>
+    <!-- Botão que fica fixo embaixo para abrir o carrinho -->
+    <button class="btn-ver-carrinho" onclick="abrirCarrinho()">
+        🛒 Ver Carrinho <span class="badge" id="qtd-carrinho">0</span>
+    </button>
 
+    <!-- Modal do Carrinho e Checkout -->
+    <div class="modal-carrinho" id="modalCarrinho">
+        <div class="modal-conteudo">
+            <button class="fechar-modal" onclick="fecharCarrinho()">X</button>
+            <h2>Seu Pedido</h2>
+            
+            <div class="carrinho-itens" id="lista-carrinho">
+                <!-- Itens vão aparecer aqui via JavaScript -->
+            </div>
+
+            <div class="total-carrinho">
+                Total: R$ <span id="valor-total">0,00</span>
+            </div>
+
+            <div class="form-pedido">
+                <input type="text" id="nomeCliente" placeholder="Seu Nome Completo" required>
+                <input type="text" id="enderecoCliente" placeholder="Rua, Número, Bairro (ou 'Retirar no local')" required>
+                <input type="text" id="obsPedido" placeholder="Observações (Ex: Sem cebola, troco pra 50)">
+                <select id="formaPagamento">
+                    <option value="PIX">PIX</option>
+                    <option value="Cartão de Crédito/Débito">Máquina de Cartão na Entrega</option>
+                    <option value="Dinheiro">Dinheiro na Entrega</option>
+                </select>
+                <button class="btn-finalizar" onclick="enviarPedido()">Enviar Pedido no WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT GERAL -->
     <script>
+        let carrinho = [];
+        let total = 0;
+
+        // FILTRO DE CATEGORIAS
         function filtrar(evento, categoria) {
             const botoes = document.querySelectorAll('.btn-categoria');
             botoes.forEach(btn => btn.classList.remove('ativo'));
@@ -361,6 +357,93 @@
                     }
                 }
             });
+        }
+
+        // LÓGICA DO CARRINHO
+        function adicionarItem(nome, preco) {
+            carrinho.push({ nome, preco });
+            atualizarCarrinho();
+            // Pequena animação no botão
+            const badge = document.getElementById('qtd-carrinho');
+            badge.style.transform = 'scale(1.5)';
+            setTimeout(() => badge.style.transform = 'scale(1)', 200);
+        }
+
+        function removerItem(index) {
+            carrinho.splice(index, 1);
+            atualizarCarrinho();
+        }
+
+        function atualizarCarrinho() {
+            const lista = document.getElementById('lista-carrinho');
+            const spanTotal = document.getElementById('valor-total');
+            const badge = document.getElementById('qtd-carrinho');
+            
+            lista.innerHTML = '';
+            total = 0;
+
+            if (carrinho.length === 0) {
+                lista.innerHTML = '<p style="color:#aaa; text-align:center;">Seu carrinho está vazio.</p>';
+            } else {
+                carrinho.forEach((item, index) => {
+                    total += item.preco;
+                    lista.innerHTML += `
+                        <div class="item-carrinho">
+                            <span>1x ${item.nome}</span>
+                            <div>
+                                <span>R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                                <span class="remover-item" onclick="removerItem(${index})">🗑️</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            spanTotal.innerText = total.toFixed(2).replace('.', ',');
+            badge.innerText = carrinho.length;
+        }
+
+        // ABRIR E FECHAR MODAL
+        function abrirCarrinho() { document.getElementById('modalCarrinho').style.display = 'flex'; }
+        function fecharCarrinho() { document.getElementById('modalCarrinho').style.display = 'none'; }
+
+        // ENVIAR PEDIDO PRO WHATSAPP
+        function enviarPedido() {
+            if (carrinho.length === 0) {
+                alert("Adicione itens ao carrinho antes de finalizar!");
+                return;
+            }
+
+            const nome = document.getElementById('nomeCliente').value;
+            const endereco = document.getElementById('enderecoCliente').value;
+            const obs = document.getElementById('obsPedido').value;
+            const pagamento = document.getElementById('formaPagamento').value;
+
+            if (!nome || !endereco) {
+                alert("Por favor, preencha seu nome e endereço!");
+                return;
+            }
+
+            let mensagem = `🍔 *NOVO PEDIDO - TAQUIFOME BURGUER'S* 🍔%0A%0A`;
+            mensagem += `*Cliente:* ${nome}%0A`;
+            mensagem += `*Endereço:* ${endereco}%0A`;
+            mensagem += `*Pagamento:* ${pagamento}%0A`;
+            if (obs) mensagem += `*Observações:* ${obs}%0A`;
+            
+            mensagem += `%0A*RESUMO DO PEDIDO:*%0A`;
+            
+            carrinho.forEach(item => {
+                mensagem += `- 1x ${item.nome} (R$ ${item.preco.toFixed(2).replace('.', ',')})%0A`;
+            });
+
+            mensagem += `%0A*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*%0A%0A`;
+            mensagem += `Aguardando confirmação!`;
+
+            // NUMERO DO WHATSAPP AQUI (Somente números, com DDD)
+            const telefone = "5511925308460"; 
+            const link = `https://wa.me/${telefone}?text=${mensagem}`;
+
+            window.open(link, '_blank');
         }
     </script>
 </body>
