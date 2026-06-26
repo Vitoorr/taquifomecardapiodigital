@@ -17,6 +17,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--cor-fundo); color: var(--cor-texto); padding-bottom: 100px; }
+        
 
         /* --- CABEÇALHO --- */
         header { text-align: center; padding: 30px 20px; background-color: #000; border-bottom: 3px solid var(--cor-destaque); }
@@ -58,9 +59,72 @@
 
         .form-pedido input, .form-pedido select { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; }
         .btn-finalizar { width: 100%; background-color: var(--cor-sucesso); color: #fff; padding: 15px; border: none; border-radius: 5px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 10px; }
+
+        /* --- ÁREA DE CUPOM --- */
+        .area-cupom { display: flex; gap: 10px; margin-bottom: 10px; }
+        .area-cupom input { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; text-transform: uppercase; }
+        .area-cupom button { background-color: var(--cor-destaque); color: #000; border: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .desconto-carrinho { font-size: 1rem; color: #25D366; text-align: right; margin-bottom: 15px; font-weight: bold; }
+    
+        /* --- BANNER PROMOCIONAL CENTRALIZADO --- */
+        .banner-promocional {
+            position: fixed; /* Fica fixo na tela toda */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Fundo preto transparente */
+            z-index: 2000; /* Fica por cima de tudo */
+            display: none; /* O JS decide se mostra, mas usaremos FLEX */
+            justify-content: center;
+            align-items: center;
+        }
+        .conteudo-banner {
+            position: relative;
+            width: 90%;
+            max-width: 400px; /* Tamanho ideal para celular e PC */
+        }
+        .img-banner {
+            width: 100%;
+            height: auto;
+            border-radius: 15px; /* Bordas arredondadas para ficar elegante */
+            display: block;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+        .btn-fechar-banner {
+            position: absolute;
+            top: -15px;
+            right: -15px; /* Joga o botão um pouquinho pra fora da foto */
+            background-color: var(--cor-destaque); /* Usa o amarelo da Taquifome */
+            color: #000;
+            border: 3px solid #000;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
+            z-index: 2001; /* Garante que o clique vai funcionar */
+        }
+        .btn-fechar-banner:active {
+            transform: scale(0.9);
+        }
     </style>
 </head>
 <body>
+
+    <!-- BANNER DE CUPOM PROMOCIONAL EM IMAGEM (CENTRALIZADO) -->
+    <div id="banner-cupom" class="banner-promocional">
+        <div class="conteudo-banner">
+            <button class="btn-fechar-banner" onclick="fecharBanner()">X</button>
+            <img src="img/bannercupom.png" alt="Cupom 10% OFF" class="img-banner">
+        </div>
+    </div>
 
     <header>
         <img src="img/logo.jpg" alt="Taquifomeburguers Logo" class="logo">
@@ -175,7 +239,7 @@
 
         <!-- ================= COMBOS ================= -->
         <div class="item-card combo">
-            <img src="img/combo1.jpeg" alt="Combo TaquixClassic" class="item-img">
+            <img src="img/lanche1.jpeg" alt="Combo TaquixClassic" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">1-Combo "TaquixClassic"</h3>
                 <p class="item-desc">Pão brioche, carne grelhada, queijo, alface, tomate, molho especial + batata 120g.</p>
@@ -187,7 +251,7 @@
         </div>
 
         <div class="item-card combo">
-            <img src="img/combo2.jpeg" alt="Combo TaquixCheddar" class="item-img">
+            <img src="img/lanche2.jpeg" alt="Combo TaquixCheddar" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">2-Combo "TaquixCheddar"</h3>
                 <p class="item-desc">Pão brioche, maionese temperada, carne grelhada, queijo cheddar + batata 120g.</p>
@@ -212,7 +276,7 @@
 
         <!-- ================= ACOMPANHAMENTOS ================= -->
         <div class="item-card acompanhamento">
-            <img src="img/batata-p.jpg" alt="Batata P" class="item-img">
+            <img src="img/batata.png" alt="Batata P" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Batata P</h3>
                 <div class="preco-add">
@@ -223,7 +287,7 @@
         </div>
 
         <div class="item-card acompanhamento">
-            <img src="img/batata-m.jpg" alt="Batata M" class="item-img">
+            <img src="img/batata.png" alt="Batata M" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Batata M</h3>
                 <div class="preco-add">
@@ -234,7 +298,7 @@
         </div>
 
         <div class="item-card acompanhamento">
-            <img src="img/batata-g.jpg" alt="Batata G" class="item-img">
+            <img src="img/batata.png" alt="Batata G" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Batata G</h3>
                 <div class="preco-add">
@@ -245,7 +309,7 @@
         </div>
 
         <div class="item-card acompanhamento">
-            <img src="img/batata-cheddar.jpg" alt="Batata com cheddar e bacon" class="item-img">
+            <img src="img/batatacheddar.png" alt="Batata com cheddar e bacon" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Batata com cheddar e bacon</h3>
                 <div class="preco-add">
@@ -256,7 +320,7 @@
         </div>
 
         <div class="item-card acompanhamento">
-            <img src="img/mini-chicken.jpg" alt="Mini chikens empanado" class="item-img">
+            <img src="img/minichicken.png" alt="Mini chikens empanado" class="item-img">
             <div class="item-info">
                 <h3 class="item-titulo">Mini chikens (6 un)</h3>
                 <div class="preco-add">
@@ -319,7 +383,14 @@
             <div class="total-carrinho">
                 Total: R$ <span id="valor-total">0,00</span>
             </div>
-
+                   <!-- ÁREA DO CUPOM -->
+            <div class="area-cupom">
+                <input type="text" id="codigoCupom" placeholder="Tem um cupom?">
+                <button onclick="aplicarCupom()">Aplicar</button>
+            </div>
+            <div class="desconto-carrinho" id="area-desconto" style="display: none;">
+                Desconto: - R$ <span id="valor-desconto">0,00</span>
+            </div>
             <div class="form-pedido">
                 <input type="text" id="nomeCliente" placeholder="Seu Nome Completo" required>
                 <input type="text" id="enderecoCliente" placeholder="Rua, Número, Bairro (ou 'Retirar no local')" required>
@@ -338,6 +409,8 @@
     <script>
         let carrinho = [];
         let total = 0;
+        let descontoAplicado = 0;
+        let cupomAtivo = false;
 
         // FILTRO DE CATEGORIAS
         function filtrar(evento, categoria) {
@@ -399,10 +472,42 @@
                 });
             }
 
+            // --- INÍCIO DA LÓGICA DE DESCONTO ---
+            if (cupomAtivo) {
+                descontoAplicado = total * 0.10; // 10% de desconto
+                total = total - descontoAplicado;
+                document.getElementById('area-desconto').style.display = 'block';
+                document.getElementById('valor-desconto').innerText = descontoAplicado.toFixed(2).replace('.', ',');
+            } else {
+                descontoAplicado = 0;
+                document.getElementById('area-desconto').style.display = 'none';
+            }
+
             spanTotal.innerText = total.toFixed(2).replace('.', ',');
             badge.innerText = carrinho.length;
+            // --- FIM DA LÓGICA DE DESCONTO ---
         }
+        function aplicarCupom() {
+            const inputCupom = document.getElementById('codigoCupom').value.toUpperCase().trim();
+            
+            // Verifica se o cliente já usou o cupom no passado (lendo o localStorage)
+            if (localStorage.getItem('taquifome_primeira_compra') === 'usado') {
+                alert("Você já utilizou o cupom de primeira compra no passado!");
+                return;
+            }
 
+            if (inputCupom === 'TAQUI10') {
+                if (carrinho.length === 0) {
+                    alert("Adicione itens ao carrinho primeiro!");
+                    return;
+                }
+                cupomAtivo = true;
+                atualizarCarrinho(); // Recalcula o total com o desconto
+                alert("Cupom de 10% aplicado com sucesso!");
+            } else {
+                alert("Cupom inválido!");
+            }
+        }
         // ABRIR E FECHAR MODAL
         function abrirCarrinho() { document.getElementById('modalCarrinho').style.display = 'flex'; }
         function fecharCarrinho() { document.getElementById('modalCarrinho').style.display = 'none'; }
@@ -436,6 +541,10 @@
                 mensagem += `- 1x ${item.nome} (R$ ${item.preco.toFixed(2).replace('.', ',')})%0A`;
             });
 
+            if (cupomAtivo) {
+                mensagem += `%0A*Desconto (10% OFF):* - R$ ${descontoAplicado.toFixed(2).replace('.', ',')}`;
+            }
+
             mensagem += `%0A*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*%0A%0A`;
             mensagem += `Aguardando confirmação!`;
 
@@ -444,6 +553,23 @@
             const link = `https://wa.me/${telefone}?text=${mensagem}`;
 
             window.open(link, '_blank');
+
+            // Se o pedido foi enviado com cupom, grava no celular do cliente para ele não usar de novo
+            if (cupomAtivo) {
+                localStorage.setItem('taquifome_primeira_compra', 'usado');
+            }
+        }
+
+        // --- LÓGICA DO BANNER PROMOCIONAL ---
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('taquifome_primeira_compra') !== 'usado') {
+                // Aqui é o pulo do gato: display 'flex' para centralizar!
+                document.getElementById('banner-cupom').style.display = 'flex';
+            }
+        });
+
+        function fecharBanner() {
+            document.getElementById('banner-cupom').style.display = 'none';
         }
     </script>
 </body>
