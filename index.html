@@ -59,7 +59,22 @@
 
         .form-pedido input, .form-pedido select { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; }
         .btn-finalizar { width: 100%; background-color: var(--cor-sucesso); color: #fff; padding: 15px; border: none; border-radius: 5px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 10px; }
+        .form-pedido input, .form-pedido select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box; /* Isso impede que o input saia da tela */
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+}
 
+.resumo-carrinho {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #444;
+}
         /* --- ÁREA DE CUPOM --- */
         .area-cupom { display: flex; gap: 10px; margin-bottom: 10px; }
         .area-cupom input { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; text-transform: uppercase; }
@@ -380,28 +395,47 @@
                 <!-- Itens vão aparecer aqui via JavaScript -->
             </div>
 
-            <div class="total-carrinho">
-                Total: R$ <span id="valor-total">0,00</span>
-            </div>
-                   <!-- ÁREA DO CUPOM -->
+            <!-- ÁREA DO CUPOM -->
             <div class="area-cupom">
                 <input type="text" id="codigoCupom" placeholder="Tem um cupom?">
                 <button onclick="aplicarCupom()">Aplicar</button>
             </div>
-            <div class="desconto-carrinho" id="area-desconto" style="display: none;">
-                Desconto: - R$ <span id="valor-desconto">0,00</span>
-            </div>
             <div class="form-pedido">
-                <input type="text" id="nomeCliente" placeholder="Seu Nome Completo" required>
-                <input type="text" id="enderecoCliente" placeholder="Rua, Número, Bairro (ou 'Retirar no local')" required>
-                <input type="text" id="obsPedido" placeholder="Observações (Ex: Sem cebola, troco pra 50)">
-                <select id="formaPagamento">
-                    <option value="PIX">PIX</option>
-                    <option value="Cartão de Crédito/Débito">Máquina de Cartão na Entrega</option>
-                    <option value="Dinheiro">Dinheiro na Entrega</option>
-                </select>
-                <button class="btn-finalizar" onclick="enviarPedido()">Enviar Pedido no WhatsApp</button>
-            </div>
+    <input type="text" id="nomeCliente" placeholder="Seu Nome Completo" required>
+    <input type="text" id="bairroCliente" placeholder="Qual o seu Bairro?" oninput="atualizarCarrinho()" required>
+    <input type="text" id="enderecoCliente" placeholder="Rua, Número e Complemento" required>
+    <input type="text" id="obsPedido" placeholder="Observações (Ex: Sem cebola, troco pra 50)">
+    
+    <select id="formaPagamento">
+        <option value="PIX">PIX</option>
+        <option value="Dinheiro">Dinheiro</option>
+        <option value="Cartão">Cartão (Débito/Crédito)</option>
+    </select>
+</div>
+
+<div class="resumo-carrinho" style="text-align: right; padding: 10px;">
+    
+    <div id="area-taxa" style="display: none; margin-bottom: 5px; color: #aaa;">
+        Entrega: + R$ <span id="valor-taxa">0,00</span>
+    </div>
+
+    <div id="area-desconto" style="display: none; margin-bottom: 5px; color: #4CAF50;">
+        Desconto: - R$ <span id="valor-desconto">0,00</span>
+    </div>
+
+    <p id="aviso-taxa" style="color: #ff9800; display: none; font-size: 0.8rem; margin: 5px 0;">
+        *Bairro não reconhecido.
+    </p>
+
+    <div class="total-carrinho" style="font-weight: bold; font-size: 1.2rem; margin-top: 10px;">
+        Total: R$ <span id="valor-total">0,00</span>
+    </div>
+
+    <button class="btn-finalizar" style="width: 100%; margin-top: 15px;" onclick="enviarPedido()">
+        Enviar Pedido no WhatsApp
+    </button>
+    
+</div>
         </div>
     </div>
 
@@ -411,7 +445,21 @@
         let total = 0;
         let descontoAplicado = 0;
         let cupomAtivo = false;
+        let taxaEntrega = 0;
+        let bairroReconhecido = false;
 
+        // SEU DICIONÁRIO DE BAIRROS E PREÇOS
+        const tabelaFrete = {
+            "campo limpo": 3.00,
+            "capao redondo": 4.50,
+            "vila das belezas": 6.00,
+            "morumbi": 9.00
+        };
+
+        function formatarMoeda(valor) {
+            return valor.toFixed(2).replace('.', ',');
+        }
+        
         // FILTRO DE CATEGORIAS
         function filtrar(evento, categoria) {
             const botoes = document.querySelectorAll('.btn-categoria');
@@ -436,7 +484,7 @@
         function adicionarItem(nome, preco) {
             carrinho.push({ nome, preco });
             atualizarCarrinho();
-            // Pequena animação no botão
+
             const badge = document.getElementById('qtd-carrinho');
             badge.style.transform = 'scale(1.5)';
             setTimeout(() => badge.style.transform = 'scale(1)', 200);
@@ -448,49 +496,85 @@
         }
 
         function atualizarCarrinho() {
-            const lista = document.getElementById('lista-carrinho');
+            const listaCarrinho = document.getElementById('lista-carrinho');
             const spanTotal = document.getElementById('valor-total');
+            const areaDesconto = document.getElementById('area-desconto');
+            const spanDesconto = document.getElementById('valor-desconto');
+            const areaTaxa = document.getElementById('area-taxa');
+            const spanTaxa = document.getElementById('valor-taxa');
+            const avisoTaxa = document.getElementById('aviso-taxa');
             const badge = document.getElementById('qtd-carrinho');
-            
-            lista.innerHTML = '';
-            total = 0;
+            const inputBairro = document.getElementById('bairroCliente');
 
-            if (carrinho.length === 0) {
-                lista.innerHTML = '<p style="color:#aaa; text-align:center;">Seu carrinho está vazio.</p>';
-            } else {
-                carrinho.forEach((item, index) => {
-                    total += item.preco;
-                    lista.innerHTML += `
+            let subtotal = 0;
+            carrinho.forEach(item => {
+                subtotal += item.preco;
+            });
+
+            descontoAplicado = cupomAtivo ? subtotal * 0.10 : 0;
+            taxaEntrega = 0;
+            bairroReconhecido = false;
+
+            if (inputBairro && inputBairro.value.length > 2) {
+                const textoBairro = inputBairro.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+
+                for (let bairroNoDicionario in tabelaFrete) {
+                    if (textoBairro.includes(bairroNoDicionario)) {
+                        taxaEntrega = tabelaFrete[bairroNoDicionario];
+                        bairroReconhecido = true;
+                        break;
+                    }
+                }
+            }
+
+            if (listaCarrinho) {
+                if (carrinho.length === 0) {
+                    listaCarrinho.innerHTML = '<p style="color: #aaa;">Seu carrinho está vazio.</p>';
+                } else {
+                    listaCarrinho.innerHTML = carrinho.map((item, index) => `
                         <div class="item-carrinho">
-                            <span>1x ${item.nome}</span>
-                            <div>
-                                <span>R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                                <span class="remover-item" onclick="removerItem(${index})">🗑️</span>
-                            </div>
+                            <span>${item.nome} - R$ ${formatarMoeda(item.preco)}</span>
+                            <span class="remover-item" onclick="removerItem(${index})">Remover</span>
                         </div>
-                    `;
-                });
+                    `).join('');
+                }
             }
 
-            // --- INÍCIO DA LÓGICA DE DESCONTO ---
-            if (cupomAtivo) {
-                descontoAplicado = total * 0.10; // 10% de desconto
-                total = total - descontoAplicado;
-                document.getElementById('area-desconto').style.display = 'block';
-                document.getElementById('valor-desconto').innerText = descontoAplicado.toFixed(2).replace('.', ',');
-            } else {
-                descontoAplicado = 0;
-                document.getElementById('area-desconto').style.display = 'none';
+            if (areaDesconto && spanDesconto) {
+                if (cupomAtivo && descontoAplicado > 0) {
+                    areaDesconto.style.display = 'block';
+                    spanDesconto.innerText = formatarMoeda(descontoAplicado);
+                } else {
+                    areaDesconto.style.display = 'none';
+                    spanDesconto.innerText = '0,00';
+                }
             }
 
-            spanTotal.innerText = total.toFixed(2).replace('.', ',');
-            badge.innerText = carrinho.length;
-            // --- FIM DA LÓGICA DE DESCONTO ---
+            if (areaTaxa && spanTaxa && avisoTaxa) {
+                if (bairroReconhecido) {
+                    areaTaxa.style.display = 'block';
+                    spanTaxa.innerText = formatarMoeda(taxaEntrega);
+                    avisoTaxa.style.display = 'none';
+                } else if (inputBairro && inputBairro.value.length > 2) {
+                    areaTaxa.style.display = 'none';
+                    spanTaxa.innerText = '0,00';
+                    avisoTaxa.style.display = 'block';
+                } else {
+                    areaTaxa.style.display = 'none';
+                    spanTaxa.innerText = '0,00';
+                    avisoTaxa.style.display = 'none';
+                }
+            }
+
+            total = (subtotal - descontoAplicado) + taxaEntrega;
+
+            if (spanTotal) spanTotal.innerText = formatarMoeda(total);
+            if (badge) badge.innerText = carrinho.length;
         }
+
         function aplicarCupom() {
             const inputCupom = document.getElementById('codigoCupom').value.toUpperCase().trim();
             
-            // Verifica se o cliente já usou o cupom no passado (lendo o localStorage)
             if (localStorage.getItem('taquifome_primeira_compra') === 'usado') {
                 alert("Você já utilizou o cupom de primeira compra no passado!");
                 return;
@@ -501,60 +585,77 @@
                     alert("Adicione itens ao carrinho primeiro!");
                     return;
                 }
+
                 cupomAtivo = true;
-                atualizarCarrinho(); // Recalcula o total com o desconto
+                atualizarCarrinho();
                 alert("Cupom de 10% aplicado com sucesso!");
             } else {
                 alert("Cupom inválido!");
             }
         }
+
         // ABRIR E FECHAR MODAL
-        function abrirCarrinho() { document.getElementById('modalCarrinho').style.display = 'flex'; }
-        function fecharCarrinho() { document.getElementById('modalCarrinho').style.display = 'none'; }
+        function abrirCarrinho() {
+            atualizarCarrinho();
+            document.getElementById('modalCarrinho').style.display = 'flex';
+        }
+
+        function fecharCarrinho() {
+            document.getElementById('modalCarrinho').style.display = 'none';
+        }
 
         // ENVIAR PEDIDO PRO WHATSAPP
         function enviarPedido() {
+            atualizarCarrinho();
+
             if (carrinho.length === 0) {
                 alert("Adicione itens ao carrinho antes de finalizar!");
                 return;
             }
 
-            const nome = document.getElementById('nomeCliente').value;
-            const endereco = document.getElementById('enderecoCliente').value;
-            const obs = document.getElementById('obsPedido').value;
+            const nome = document.getElementById('nomeCliente').value.trim();
+            const bairro = document.getElementById('bairroCliente').value.trim();
+            const endereco = document.getElementById('enderecoCliente').value.trim();
+            const obs = document.getElementById('obsPedido').value.trim();
             const pagamento = document.getElementById('formaPagamento').value;
 
-            if (!nome || !endereco) {
-                alert("Por favor, preencha seu nome e endereço!");
+            if (!nome || !bairro || !endereco) {
+                alert("Por favor, preencha seu nome, bairro e endereço!");
                 return;
             }
 
-            let mensagem = `🍔 *NOVO PEDIDO - TAQUIFOME BURGUER'S* 🍔%0A%0A`;
-            mensagem += `*Cliente:* ${nome}%0A`;
-            mensagem += `*Endereço:* ${endereco}%0A`;
-            mensagem += `*Pagamento:* ${pagamento}%0A`;
-            if (obs) mensagem += `*Observações:* ${obs}%0A`;
+            if (!bairroReconhecido) {
+                alert("Bairro não reconhecido. Confira se digitou o bairro corretamente antes de finalizar.");
+                return;
+            }
+
+            let mensagem = `🍔 *NOVO PEDIDO - TAQUIFOME BURGUER'S* 🍔\n\n`;
+            mensagem += `*Cliente:* ${nome}\n`;
+            mensagem += `*Bairro:* ${bairro}\n`;
+            mensagem += `*Endereço:* ${endereco}\n`;
+            mensagem += `*Pagamento:* ${pagamento}\n`;
+            if (obs) mensagem += `*Observações:* ${obs}\n`;
             
-            mensagem += `%0A*RESUMO DO PEDIDO:*%0A`;
+            mensagem += `\n*RESUMO DO PEDIDO:*\n`;
             
             carrinho.forEach(item => {
-                mensagem += `- 1x ${item.nome} (R$ ${item.preco.toFixed(2).replace('.', ',')})%0A`;
+                mensagem += `- 1x ${item.nome} (R$ ${formatarMoeda(item.preco)})\n`;
             });
 
             if (cupomAtivo) {
-                mensagem += `%0A*Desconto (10% OFF):* - R$ ${descontoAplicado.toFixed(2).replace('.', ',')}`;
+                mensagem += `\n*Desconto (10% OFF):* - R$ ${formatarMoeda(descontoAplicado)}\n`;
             }
-
-            mensagem += `%0A*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*%0A%0A`;
+            
+            mensagem += `*Taxa de Entrega:* + R$ ${formatarMoeda(taxaEntrega)}\n`;
+            mensagem += `\n*TOTAL: R$ ${formatarMoeda(total)}*\n\n`;
             mensagem += `Aguardando confirmação!`;
 
             // NUMERO DO WHATSAPP AQUI (Somente números, com DDD)
             const telefone = "5511925308460"; 
-            const link = `https://wa.me/${telefone}?text=${mensagem}`;
+            const link = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
 
             window.open(link, '_blank');
 
-            // Se o pedido foi enviado com cupom, grava no celular do cliente para ele não usar de novo
             if (cupomAtivo) {
                 localStorage.setItem('taquifome_primeira_compra', 'usado');
             }
@@ -562,8 +663,9 @@
 
         // --- LÓGICA DO BANNER PROMOCIONAL ---
         document.addEventListener('DOMContentLoaded', function() {
+            atualizarCarrinho();
+
             if (localStorage.getItem('taquifome_primeira_compra') !== 'usado') {
-                // Aqui é o pulo do gato: display 'flex' para centralizar!
                 document.getElementById('banner-cupom').style.display = 'flex';
             }
         });
